@@ -1,86 +1,100 @@
 <!doctype html>
 <html lang="pt-BR">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Meu Caixa</title>
 <style>
-:root{--bg:#f5f7fb;--card:#fff;--text:#172033;--muted:#718096;--line:#e7ecf4;--blue:#3157d5;--green:#169c68;--red:#d94a5b;--amber:#c88719}
-*{box-sizing:border-box}body{margin:0;font:14px Inter,system-ui,Arial;background:var(--bg);color:var(--text)}button,input{font:inherit}.hidden{display:none!important}
-.login{min-height:100vh;display:grid;place-items:center;padding:20px;background:radial-gradient(circle at 15% 0,#dfe7ff,transparent 35%),var(--bg)}
-.login-card{width:min(420px,100%);background:#fff;padding:34px;border:1px solid var(--line);border-radius:24px;box-shadow:0 15px 45px #1d2d5515}.brand{display:flex;gap:12px;align-items:center;font-size:22px;font-weight:850}.mark{width:40px;height:40px;border-radius:12px;background:linear-gradient(135deg,#3157d5,#718dff);color:#fff;display:grid;place-items:center}.sub{color:var(--muted);margin:8px 0 24px}.field{margin:14px 0}.field label{display:block;font-weight:700;font-size:12px;margin-bottom:7px}.field input{width:100%;padding:12px;border:1px solid #dce3ee;border-radius:11px}.btn{border:0;border-radius:11px;padding:12px 16px;font-weight:750;cursor:pointer}.primary{width:100%;background:var(--blue);color:#fff}.switch{text-align:center;color:var(--muted);font-size:13px;margin-top:15px}.switch button{border:0;background:none;color:var(--blue);font-weight:750;cursor:pointer}.error{color:var(--red);margin-top:10px;font-size:12px}
-.top{height:72px;background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:15px;padding:0 22px;position:sticky;top:0;z-index:20}.menu{width:42px;height:42px;border:1px solid var(--line);background:#fff;border-radius:12px;font-size:19px;cursor:pointer}.title{font-weight:850}.grow{flex:1}.period{display:flex;align-items:center;gap:7px}.period input{border:1px solid var(--line);border-radius:9px;padding:8px}.secondary{background:#eef2ff;color:var(--blue)}
-.drawer{position:fixed;z-index:30;top:0;bottom:0;left:0;width:270px;background:#fff;border-right:1px solid var(--line);padding:22px;transform:translateX(-100%);transition:.2s}.drawer.open{transform:translateX(0)}.drawer .brand{margin-bottom:28px}.group{font-size:10px;color:#98a2b2;font-weight:850;text-transform:uppercase;margin:18px 10px 7px}.nav{display:grid;gap:5px}.nav button{border:0;background:none;text-align:left;padding:11px;border-radius:10px;color:#465168;font-weight:650;cursor:pointer}.nav button.active,.nav button:hover{background:#eef2ff;color:var(--blue)}.logout{margin-top:25px;width:100%;background:#fff1f3;color:var(--red)}
-main{max-width:1450px;margin:auto;padding:28px}.hero{margin-bottom:20px}.hero h1{margin:0;font-size:28px}.hero p{margin:6px 0;color:var(--muted)}.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:15px}.card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:20px;box-shadow:0 5px 20px #1d2d5506}.kicker{font-size:11px;color:var(--muted);font-weight:800}.value{font-size:27px;font-weight:900;margin-top:8px}.muted{color:var(--muted)}.green{color:var(--green)}.red{color:var(--red)}.grid2{display:grid;grid-template-columns:1.25fr .75fr;gap:15px;margin-top:15px}.company{display:grid;grid-template-columns:120px 1fr 110px;align-items:center;gap:12px;margin:16px 0}.bar{height:9px;background:#edf1f6;border-radius:99px;overflow:hidden}.bar i{display:block;height:100%;background:linear-gradient(90deg,#3157d5,#7190ff);border-radius:99px}.right{text-align:right;font-weight:800}.radar{display:grid;gap:9px}.radar>div{display:flex;justify-content:space-between;gap:10px;background:#f8fafc;padding:11px;border-radius:11px}.badge{padding:5px 8px;border-radius:99px;font-size:10px;font-weight:850}.ok{background:#e8f8f0;color:var(--green)}.warn{background:#fff5dc;color:var(--amber)}.bad{background:#fff0f2;color:var(--red)}table{width:100%;border-collapse:collapse}th,td{text-align:left;padding:11px 8px;border-bottom:1px solid var(--line);font-size:12px}th{font-size:10px;color:var(--muted);text-transform:uppercase}.toast{position:fixed;right:20px;bottom:20px;background:#172033;color:#fff;padding:13px 16px;border-radius:12px;z-index:50}
-@media(max-width:950px){.cards{grid-template-columns:1fr 1fr}.grid2{grid-template-columns:1fr}.period{display:none}}@media(max-width:600px){main{padding:17px}.cards{grid-template-columns:1fr}.company{grid-template-columns:90px 1fr 90px}.top{padding:0 13px}}
-</style><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+*{box-sizing:border-box}body{margin:0;font-family:Inter,Arial,sans-serif;background:#f5f7fb;color:#172033}
+button,input,select{font:inherit}button{cursor:pointer}
+.layout{display:flex;min-height:100vh}.side{width:245px;background:#111827;color:#fff;padding:22px 16px;position:fixed;inset:0 auto 0 0}.brand{font-size:24px;font-weight:800;padding:8px 12px 28px}.brand span{color:#60a5fa}.nav button{width:100%;background:transparent;border:0;color:#cbd5e1;text-align:left;padding:13px 14px;border-radius:10px;margin:3px 0}.nav button.active,.nav button:hover{background:#1f2937;color:#fff}.main{margin-left:245px;width:calc(100% - 245px);padding:28px 32px}.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:26px}.title h1{margin:0;font-size:29px}.title p{margin:5px 0;color:#64748b}.period{display:flex;gap:8px;align-items:center}.period input{border:1px solid #dbe1ea;border-radius:9px;padding:9px;background:white}.btn{border:0;border-radius:9px;padding:10px 15px;background:#2563eb;color:white;font-weight:700}.btn.gray{background:#e9eef5;color:#243047}.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}.card{background:white;border:1px solid #e7ebf2;border-radius:14px;padding:20px;box-shadow:0 2px 8px #10182808}.label{color:#64748b;font-size:13px;font-weight:600}.value{font-size:27px;font-weight:800;margin-top:8px}.sub{font-size:12px;color:#94a3b8;margin-top:5px}.grid{display:grid;grid-template-columns:1.5fr 1fr;gap:18px;margin-top:18px}.section{background:white;border:1px solid #e7ebf2;border-radius:14px;padding:20px}.section h2{font-size:17px;margin:0 0 16px}.company{display:flex;justify-content:space-between;align-items:center;padding:15px 0;border-top:1px solid #eef1f5}.company:first-of-type{border-top:0}.dot{width:10px;height:10px;border-radius:50%;display:inline-block;margin-right:8px;background:#2563eb}.dot.aura{background:#16a34a}.dot.personal{background:#9333ea}.amount{font-weight:800}.bars{display:flex;align-items:end;height:170px;gap:9px;padding-top:15px}.bar{flex:1;background:#dbeafe;border-radius:5px 5px 2px 2px;min-height:10px}.bar.on{background:#2563eb}.months{display:flex;gap:9px;font-size:11px;color:#94a3b8}.row{display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid #eef1f5}.positive{color:#15803d}.negative{color:#dc2626}.empty{color:#94a3b8;text-align:center;padding:35px}.hidden{display:none}
+@media(max-width:900px){.side{width:210px}.main{margin-left:210px;width:calc(100% - 210px);padding:20px}.cards{grid-template-columns:repeat(2,1fr)}.grid{grid-template-columns:1fr}}
+@media(max-width:650px){.side{display:none}.main{margin:0;width:100%}.cards{grid-template-columns:1fr}.top{display:block}.period{margin-top:15px;flex-wrap:wrap}}
+</style>
 </head>
 <body>
-<div id="login" class="login"><div class="login-card">
-<div class="brand"><div class="mark">₿</div><div>Meu Caixa</div></div><p class="sub">Controle financeiro consolidado para suas empresas.</p>
-<form id="auth"><div class="field"><label>E-mail</label><input id="email" type="email" required></div><div class="field"><label>Senha</label><input id="password" type="password" minlength="6" required></div><button class="btn primary" id="authBtn">Entrar</button><div id="err" class="error"></div></form>
-<div class="switch"><span id="switchText">Ainda não tenho acesso.</span> <button id="switchBtn" type="button">Criar conta</button></div>
-</div></div>
-<div id="app" class="hidden"><header class="top"><button class="menu" id="menu">☰</button><div class="title" id="title">Dashboard</div><div class="grow"></div><div class="period"><input id="start" type="date"><span>até</span><input id="end" type="date"><button class="btn secondary" id="refresh">Atualizar</button></div></header>
-<aside class="drawer" id="drawer"><div class="brand"><div class="mark">₿</div><div>Meu Caixa</div></div><div class="group">Principal</div><div class="nav"><button class="active" data-view="dashboard">⌂ Dashboard</button><button data-view="cash">◉ Dinheiro / Saldos</button><button data-view="flow">↗ Fluxo de caixa</button></div><div class="group">Financeiro</div><div class="nav"><button data-view="receive">↓ Receber</button><button data-view="pay">↑ Pagar</button></div><div class="group">Gestão</div><div class="nav"><button data-view="analysis">▦ Análises</button><button data-view="settings">⚙ Configurações</button></div><button class="btn logout" id="logout">Sair</button></aside>
-<main id="main"></main></div><div id="toast" class="toast hidden"></div>
+<div class="layout">
+<aside class="side">
+  <div class="brand">Meu <span>Caixa</span></div>
+  <div class="nav">
+    <button class="active" data-page="dashboard">▦ &nbsp; Dashboard</button>
+    <button data-page="dinheiro">▣ &nbsp; Dinheiro</button>
+    <button data-page="receber">↙ &nbsp; Receber</button>
+    <button data-page="pagar">↗ &nbsp; Pagar</button>
+    <button data-page="movimentos">↔ &nbsp; Movimentações</button>
+    <button data-page="relatorios">▥ &nbsp; Relatórios</button>
+  </div>
+</aside>
+<main class="main">
+  <div class="top">
+    <div class="title"><h1 id="pageTitle">Visão geral</h1><p id="periodText">Período selecionado</p></div>
+    <div class="period">
+      <input id="start" type="date"><span>até</span><input id="end" type="date">
+      <button class="btn" id="apply">Atualizar</button>
+    </div>
+  </div>
+
+  <section id="dashboard">
+    <div class="cards">
+      <div class="card"><div class="label">CAIXA DISPONÍVEL AGORA</div><div class="value" id="cash">R$ 0,00</div><div class="sub">Dinheiro que existe hoje</div></div>
+      <div class="card"><div class="label">A RECEBER</div><div class="value positive" id="receivable">R$ 0,00</div><div class="sub">Valores ainda não recebidos</div></div>
+      <div class="card"><div class="label">A PAGAR</div><div class="value negative" id="payable">R$ 0,00</div><div class="sub">Compromissos pendentes</div></div>
+      <div class="card"><div class="label">CAIXA PROJETADO</div><div class="value" id="projected">R$ 0,00</div><div class="sub">Caixa + receber − pagar</div></div>
+    </div>
+    <div class="grid">
+      <div class="section"><h2>Caixa por empresa</h2>
+        <div class="company"><span><i class="dot"></i>PrimeTech</span><span class="amount" id="prime">R$ 0,00</span></div>
+        <div class="company"><span><i class="dot aura"></i>Aura</span><span class="amount" id="aura">R$ 0,00</span></div>
+        <div class="company"><span><i class="dot personal"></i>Pessoal</span><span class="amount" id="personal">R$ 0,00</span></div>
+        <div class="company"><strong>Consolidado</strong><strong id="total">R$ 0,00</strong></div>
+      </div>
+      <div class="section"><h2>Fluxo do período</h2><div class="bars" id="bars"></div><div class="months" id="months"></div></div>
+    </div>
+    <div class="grid">
+      <div class="section"><h2>Próximos compromissos</h2><div id="commitments"><div class="empty">Nenhum lançamento carregado ainda.</div></div></div>
+      <div class="section"><h2>Resumo rápido</h2><div class="row"><span>Entradas realizadas</span><strong class="positive" id="in">R$ 0,00</strong></div><div class="row"><span>Saídas realizadas</span><strong class="negative" id="out">R$ 0,00</strong></div><div class="row"><span>Resultado do período</span><strong id="result">R$ 0,00</strong></div></div>
+    </div>
+  </section>
+
+  <section id="other" class="hidden">
+    <div class="section"><h2 id="otherTitle">Módulo</h2><p id="otherText">Este módulo será conectado aos dados reais na próxima etapa.</p></div>
+  </section>
+</main>
+</div>
 <script>
-const URL="https://vsqopkbxvpiouwnwmwst.supabase.co",KEY="sb_publishable_8TpUUtjAoc9JfM4Bi5hNEw_62StWFX9",db=supabase.createClient(URL,KEY);
-const money=n=>new Intl.NumberFormat("pt-BR",{style:"currency",currency:"BRL"}).format(+n||0), esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c])), iso=d=>d.toISOString().slice(0,10);
-let now=new Date(),start=new Date(now.getFullYear(),now.getMonth(),1),end=new Date(now.getFullYear(),now.getMonth()+1,0),mode="login",view="dashboard",data={};
-document.getElementById("start").value=iso(start);document.getElementById("end").value=iso(end);
-function $(id){return document.getElementById(id)}
-function setAuthMode(next){mode=next;$("authBtn").textContent=mode==="login"?"Entrar":"Criar conta";$("switchBtn").textContent=mode==="login"?"Criar conta":"Voltar para entrar";$("switchText").textContent=mode==="login"?"Ainda não tenho acesso.":"Já tenho uma conta.";$("err").textContent=""} function toast(s){$("toast").textContent=s;$("toast").classList.remove("hidden");setTimeout(()=>$("toast").classList.add("hidden"),2500)}
-$("menu").onclick=()=>$("drawer").classList.toggle("open");$("refresh").onclick=load;$("start").onchange=load;$("end").onchange=load;$("logout").onclick=async()=>{await db.auth.signOut();location.reload()};
-
-authBtn.onclick = async () => {
-  const email = $("email").value.trim();
-  const password = $("password").value;
-  $("err").textContent = "";
-  if (!email || !password) {
-    $("err").textContent = "Informe e-mail e senha.";
-    return;
-  }
-
-  authBtn.disabled = true;
-  authBtn.textContent = "Entrando...";
-
-  try {
-    const client = window.supabase.createClient(
-      "https://vsqopkbxvpiouwnwmwst.supabase.co",
-      "sb_publishable_8TpUUtjAoc9JfM4Bi5hNEw_62StWFX9"
-    );
-
-    const { data, error } = await client.auth.signInWithPassword({
-      email,
-      password
-    });
-
-    if (error) throw error;
-    if (!data.session) throw new Error("Sessão não criada.");
-
-    // Keep the existing app's own navigation/session flow.
-    $("auth").classList.add("hidden");
-    $("app").classList.remove("hidden");
-    $("userEmail").textContent = email;
-    if (typeof render === "function") render();
-  } catch (e) {
-    $("err").textContent = e.message || "E-mail ou senha inválidos.";
-  } finally {
-    authBtn.disabled = false;
-    authBtn.textContent = "Entrar";
-  }
-};
-
-$("switchBtn").onclick=()=>setAuthMode(mode==="login"?"signup":"login");
-$("auth").onsubmit=async e=>{e.preventDefault();$("err").textContent="";let r=mode==="login"?await db.auth.signInWithPassword({email:$("email").value,password:$("password").value}):await db.auth.signUp({email:$("email").value,password:$("password").value});if(r.error){$("err").textContent=r.error.message;return}if(mode==="signup"&&!r.data.session)toast("Conta criada. Confirme seu e-mail para entrar.");else if(r.data.session)enter(r.data.session)};
-async function enter(s){$("login").classList.add("hidden");$("app").classList.remove("hidden");await load()}
-async function load(){let a=$("start").value,b=$("end").value;let q=await Promise.all([db.from("companies").select("id,name,type").order("name"),db.from("accounts").select("id,company_id,name,type,initial_balance"),db.from("receivables").select("*").gte("due_date",a).lte("due_date",b).neq("status","cancelled"),db.from("payables").select("*").gte("due_date",a).lte("due_date",b).neq("status","cancelled"),db.from("transactions").select("*").lte("transaction_date",b),db.from("transfers").select("*").lte("transfer_date",b)]);for(let x of q)if(x.error){toast("Erro ao carregar dados");console.error(x.error);return}data={companies:q[0].data,accounts:q[1].data,rec:q[2].data,pay:q[3].data,tx:q[4].data,tr:q[5].data};render()}
-function cash(c){let n=data.accounts.filter(a=>a.company_id===c.id).reduce((s,a)=>s+ +a.initial_balance,0);for(let a of data.accounts.filter(a=>a.company_id===c.id)){for(let t of data.tx.filter(t=>t.account_id===a.id))n+=t.type==="entrada"?+t.amount:-+t.amount;for(let x of data.tr.filter(x=>x.from_account_id===a.id))n-=+x.amount;for(let x of data.tr.filter(x=>x.to_account_id===a.id))n+=+x.amount}return n}
-function render(){if(view!=="dashboard"){ $("title").textContent={cash:"Dinheiro / Saldos",flow:"Fluxo de caixa",receive:"Receber",pay:"Pagar",analysis:"Análises",settings:"Configurações"}[view];$("main").innerHTML='<div class="hero"><h1>'+$("title").textContent+'</h1><p class="muted">Área preparada e conectada à mesma base financeira do Dashboard.</p></div><div class="card"><h3>Próxima camada</h3><p class="muted">Aqui vamos colocar as operações completas sem perder a visão consolidada.</p></div>';return}let cs=data.companies||[],cashTotal=cs.reduce((s,c)=>s+cash(c),0),r=data.rec.filter(x=>x.status==="pending").reduce((s,x)=>s+ +x.amount,0),p=data.pay.filter(x=>x.status==="pending").reduce((s,x)=>s+ +x.amount,0),proj=cashTotal+r-p,max=Math.max(1,...cs.map(c=>Math.abs(cash(c))));$("title").textContent="Dashboard";$("main").innerHTML=`<div class="hero"><h1>Visão financeira</h1><p>Período: ${new Date($("start").value+"T12:00").toLocaleDateString("pt-BR")} a ${new Date($("end").value+"T12:00").toLocaleDateString("pt-BR")}</p></div>
-<div class="cards"><div class="card"><div class="kicker">CAIXA DISPONÍVEL AGORA</div><div class="value">${money(cashTotal)}</div><div class="muted">Saldo real consolidado</div></div><div class="card"><div class="kicker">A RECEBER</div><div class="value green">${money(r)}</div><div class="muted">Previsto no período</div></div><div class="card"><div class="kicker">A PAGAR</div><div class="value red">${money(p)}</div><div class="muted">Compromissos no período</div></div><div class="card"><div class="kicker">CAIXA PROJETADO</div><div class="value ${proj>=0?"green":"red"}">${money(proj)}</div><div class="muted">Caixa + receber − pagar</div></div></div>
-<div class="grid2"><div class="card"><h3>Caixa por empresa</h3>${cs.map(c=>`<div class="company"><b>${esc(c.name)}</b><div class="bar"><i style="width:${Math.min(100,Math.abs(cash(c))/max*100)}%"></i></div><div class="right">${money(cash(c))}</div></div>`).join("")}</div><div class="card"><h3>Radar financeiro</h3><div class="radar"><div><span><b>Caixa consolidado</b><br><small class="muted">${cashTotal>=0?"Positivo":"Negativo"}</small></span><span class="badge ${cashTotal>=0?"ok":"bad"}">${cashTotal>=0?"OK":"CRÍTICO"}</span></div><div><span><b>Compromissos</b><br><small class="muted">${money(p)} a pagar</small></span><span class="badge ${p<=cashTotal?"ok":"bad"}">${p<=cashTotal?"COBERTO":"ATENÇÃO"}</span></div><div><span><b>Recebimentos</b><br><small class="muted">${money(r)} pendente</small></span><span class="badge warn">PREVISTO</span></div></div></div></div>
-<div class="grid2"><div class="card"><h3>Movimentações recentes</h3><table><thead><tr><th>Data</th><th>Descrição</th><th>Valor</th></tr></thead><tbody>${data.tx.slice(-8).reverse().map(t=>`<tr><td>${new Date(t.transaction_date+"T12:00").toLocaleDateString("pt-BR")}</td><td>${esc(t.description)}</td><td class="${t.type==="entrada"?"green":"red"}">${t.type==="entrada"?"+":"−"} ${money(t.amount)}</td></tr>`).join("")||"<tr><td colspan=3>Nenhuma movimentação.</td></tr>"}</tbody></table></div><div class="card"><h3>Próximos recebimentos</h3><table><thead><tr><th>Venc.</th><th>Descrição</th><th>Valor</th></tr></thead><tbody>${data.rec.filter(x=>x.status==="pending").slice(0,6).map(x=>`<tr><td>${new Date(x.due_date+"T12:00").toLocaleDateString("pt-BR")}</td><td>${esc(x.description)}</td><td class="green">${money(x.amount)}</td></tr>`).join("")||"<tr><td colspan=3>Nenhum recebimento previsto.</td></tr>"}</tbody></table></div></div>`}
-document.querySelectorAll(".nav button").forEach(b=>b.onclick=()=>{view=b.dataset.view;document.querySelectorAll(".nav button").forEach(x=>x.classList.remove("active"));b.classList.add("active");$("drawer").classList.remove("open");render()});
-db.auth.getSession().then(({data:{session}})=>{if(session)enter(session)});
+const money=v=>new Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL'}).format(v||0);
+const iso=d=>new Date(d.getTime()-d.getTimezoneOffset()*60000).toISOString().slice(0,10);
+const now=new Date(), start=new Date(now.getFullYear(),now.getMonth(),1), end=new Date(now.getFullYear(),now.getMonth()+1,0);
+document.querySelector('#start').value=iso(start);document.querySelector('#end').value=iso(end);
+document.querySelector('#periodText').textContent=`${start.toLocaleDateString('pt-BR')} até ${end.toLocaleDateString('pt-BR')}`;
+const data={cash:{prime:0,aura:0,personal:0},receivable:0,payable:0,in:0,out:0};
+function render(){
+  const total=data.cash.prime+data.cash.aura+data.cash.personal;
+  document.querySelector('#cash').textContent=money(total);
+  document.querySelector('#prime').textContent=money(data.cash.prime);
+  document.querySelector('#aura').textContent=money(data.cash.aura);
+  document.querySelector('#personal').textContent=money(data.cash.personal);
+  document.querySelector('#total').textContent=money(total);
+  document.querySelector('#receivable').textContent=money(data.receivable);
+  document.querySelector('#payable').textContent=money(data.payable);
+  document.querySelector('#projected').textContent=money(total+data.receivable-data.payable);
+  document.querySelector('#in').textContent=money(data.in);
+  document.querySelector('#out').textContent=money(data.out);
+  document.querySelector('#result').textContent=money(data.in-data.out);
+  const bars=document.querySelector('#bars');bars.innerHTML='';
+  for(let i=0;i<6;i++){const b=document.createElement('div');b.className='bar'+(i===5?' on':'');b.style.height=(20+i*12)+'%';bars.appendChild(b)}
+  document.querySelector('#months').innerHTML=['Mai','Jun','Jul','Ago','Set','Atual'].map(x=>`<span>${x}</span>`).join('');
+}
+render();
+document.querySelector('#apply').onclick=()=>{const a=document.querySelector('#start').value,b=document.querySelector('#end').value;document.querySelector('#periodText').textContent=`${new Date(a+'T12:00').toLocaleDateString('pt-BR')} até ${new Date(b+'T12:00').toLocaleDateString('pt-BR')}`;render()};
+document.querySelectorAll('.nav button').forEach(btn=>btn.onclick=()=>{
+  document.querySelectorAll('.nav button').forEach(x=>x.classList.remove('active'));btn.classList.add('active');
+  const p=btn.dataset.page;
+  document.querySelector('#dashboard').classList.toggle('hidden',p!=='dashboard');
+  document.querySelector('#other').classList.toggle('hidden',p==='dashboard');
+  const names={dinheiro:['Dinheiro','Contas e saldos disponíveis.'],receber:['Receber','Contas a receber separadas por empresa e por período.'],pagar:['Pagar','Contas a pagar separadas por empresa e por período.'],movimentos:['Movimentações','Entradas, saídas e transferências.'],relatorios:['Relatórios','Análises financeiras e visão anual.']};
+  if(names[p]){document.querySelector('#pageTitle').textContent=names[p][0];document.querySelector('#otherTitle').textContent=names[p][0];document.querySelector('#otherText').textContent=names[p][1]}else document.querySelector('#pageTitle').textContent='Visão geral';
+});
 </script>
-</body></html>
+</body>
+</html>
