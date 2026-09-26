@@ -57,8 +57,31 @@ button,input,select{font:inherit}button{cursor:pointer}
   </section>
 
   <section id="other" class="hidden">
-    <div class="section"><h2 id="otherTitle">Módulo</h2><p id="otherText">Este módulo será conectado aos dados reais na próxima etapa.</p></div>
-  </section>
+  <div class="section">
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:15px;flex-wrap:wrap">
+      <div><h2 id="otherTitle">Módulo</h2><p id="otherText"></p></div>
+      <button class="btn" id="newLaunch">+ Novo lançamento</button>
+    </div>
+    <div id="moduleContent"></div>
+  </div>
+</section>
+
+<div id="modal" class="hidden" style="position:fixed;inset:0;background:#0f172a88;display:none;align-items:center;justify-content:center;padding:20px;z-index:20">
+ <div style="background:white;border-radius:16px;width:min(560px,100%);padding:24px;box-shadow:0 20px 60px #0003">
+  <div style="display:flex;justify-content:space-between;align-items:center"><h2 id="modalTitle">Novo lançamento</h2><button class="btn gray" id="closeModal">Fechar</button></div>
+  <form id="launchForm" style="display:grid;gap:13px;margin-top:15px">
+   <label>Empresa<select id="fCompany"><option>PrimeTech</option><option>Aura</option><option>Pessoal</option></select></label>
+   <label>Tipo<select id="fType"><option value="receber">Receber</option><option value="pagar">Pagar</option><option value="entrada">Entrada de caixa</option><option value="saida">Saída de caixa</option></select></label>
+   <label>Descrição<input id="fDesc" required placeholder="Ex.: Venda de mercadorias"></label>
+   <label>Categoria<input id="fCat" placeholder="Ex.: Sistema, Consultoria, Compras"></label>
+   <label>Valor<input id="fValue" required type="number" step="0.01" min="0.01" placeholder="0,00"></label>
+   <label>Data<input id="fDate" required type="date"></label>
+   <label>Status<select id="fStatus"><option value="pendente">Pendente</option><option value="recebido">Recebido</option><option value="pago">Pago</option></select></label>
+   <label>Observação<input id="fObs" placeholder="Detalhes adicionais"></label>
+   <button class="btn" type="submit">Salvar lançamento</button>
+  </form>
+ </div>
+</div>
 </main>
 </div>
 <script>
@@ -67,34 +90,88 @@ const iso=d=>new Date(d.getTime()-d.getTimezoneOffset()*60000).toISOString().sli
 const now=new Date(), start=new Date(now.getFullYear(),now.getMonth(),1), end=new Date(now.getFullYear(),now.getMonth()+1,0);
 document.querySelector('#start').value=iso(start);document.querySelector('#end').value=iso(end);
 document.querySelector('#periodText').textContent=`${start.toLocaleDateString('pt-BR')} até ${end.toLocaleDateString('pt-BR')}`;
-const data={cash:{prime:0,aura:0,personal:0},receivable:0,payable:0,in:0,out:0};
-function render(){
-  const total=data.cash.prime+data.cash.aura+data.cash.personal;
-  document.querySelector('#cash').textContent=money(total);
-  document.querySelector('#prime').textContent=money(data.cash.prime);
-  document.querySelector('#aura').textContent=money(data.cash.aura);
-  document.querySelector('#personal').textContent=money(data.cash.personal);
-  document.querySelector('#total').textContent=money(total);
-  document.querySelector('#receivable').textContent=money(data.receivable);
-  document.querySelector('#payable').textContent=money(data.payable);
-  document.querySelector('#projected').textContent=money(total+data.receivable-data.payable);
-  document.querySelector('#in').textContent=money(data.in);
-  document.querySelector('#out').textContent=money(data.out);
-  document.querySelector('#result').textContent=money(data.in-data.out);
-  const bars=document.querySelector('#bars');bars.innerHTML='';
-  for(let i=0;i<6;i++){const b=document.createElement('div');b.className='bar'+(i===5?' on':'');b.style.height=(20+i*12)+'%';bars.appendChild(b)}
-  document.querySelector('#months').innerHTML=['Mai','Jun','Jul','Ago','Set','Atual'].map(x=>`<span>${x}</span>`).join('');
+
+const money=v=>new Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL'}).format(Number(v)||0);
+const iso=d=>new Date(d.getTime()-d.getTimezoneOffset()*60000).toISOString().slice(0,10);
+const today=new Date(), first=new Date(today.getFullYear(),today.getMonth(),1), last=new Date(today.getFullYear(),today.getMonth()+1,0);
+const $=id=>document.getElementById(id);
+$("start").value=iso(first); $("end").value=iso(last);
+let launches=JSON.parse(localStorage.getItem("meuCaixaLancamentos")||"[]");
+let currentPage="dashboard";
+
+function save(){localStorage.setItem("meuCaixaLancamentos",JSON.stringify(launches));}
+function inPeriod(x){
+  const a=$("start").value,b=$("end").value;
+  return (!a||x.date>=a)&&(!b||x.date<=b);
 }
-render();
-document.querySelector('#apply').onclick=()=>{const a=document.querySelector('#start').value,b=document.querySelector('#end').value;document.querySelector('#periodText').textContent=`${new Date(a+'T12:00').toLocaleDateString('pt-BR')} até ${new Date(b+'T12:00').toLocaleDateString('pt-BR')}`;render()};
-document.querySelectorAll('.nav button').forEach(btn=>btn.onclick=()=>{
-  document.querySelectorAll('.nav button').forEach(x=>x.classList.remove('active'));btn.classList.add('active');
-  const p=btn.dataset.page;
-  document.querySelector('#dashboard').classList.toggle('hidden',p!=='dashboard');
-  document.querySelector('#other').classList.toggle('hidden',p==='dashboard');
-  const names={dinheiro:['Dinheiro','Contas e saldos disponíveis.'],receber:['Receber','Contas a receber separadas por empresa e por período.'],pagar:['Pagar','Contas a pagar separadas por empresa e por período.'],movimentos:['Movimentações','Entradas, saídas e transferências.'],relatorios:['Relatórios','Análises financeiras e visão anual.']};
-  if(names[p]){document.querySelector('#pageTitle').textContent=names[p][0];document.querySelector('#otherTitle').textContent=names[p][0];document.querySelector('#otherText').textContent=names[p][1]}else document.querySelector('#pageTitle').textContent='Visão geral';
+function statusCounts(){
+  let cash={PrimeTech:0,Aura:0,Pessoal:0}, rec=0,pay=0,inc=0,out=0;
+  launches.forEach(x=>{
+    const v=Number(x.value)||0;
+    const isReal=(x.type==="entrada"&&x.status==="recebido")||(x.type==="saida"&&x.status==="pago")||
+                 (x.type==="receber"&&x.status==="recebido")||(x.type==="pagar"&&x.status==="pago");
+    if(isReal){
+      if(x.type==="entrada"||x.type==="receber"){cash[x.company]+=v;inc+=v}
+      if(x.type==="saida"||x.type==="pagar"){cash[x.company]-=v;out+=v}
+    }
+    if(x.type==="receber"&&x.status!=="recebido") rec+=v;
+    if(x.type==="pagar"&&x.status!=="pago") pay+=v;
+  });
+  return {cash,rec,pay,inc,out};
+}
+function render(){
+  const d=statusCounts(), total=Object.values(d.cash).reduce((a,b)=>a+b,0);
+  $("cash").textContent=money(total); $("prime").textContent=money(d.cash.PrimeTech);
+  $("aura").textContent=money(d.cash.Aura); $("personal").textContent=money(d.cash.Pessoal);
+  $("total").textContent=money(total); $("receivable").textContent=money(d.rec);
+  $("payable").textContent=money(d.pay); $("projected").textContent=money(total+d.rec-d.pay);
+  $("in").textContent=money(d.inc); $("out").textContent=money(d.out); $("result").textContent=money(d.inc-d.out);
+  $("periodText").textContent=`${new Date($("start").value+"T12:00").toLocaleDateString('pt-BR')} até ${new Date($("end").value+"T12:00").toLocaleDateString('pt-BR')}`;
+  const bars=$("bars"); bars.innerHTML="";
+  for(let i=0;i<6;i++){let b=document.createElement("div");b.className="bar"+(i===5?" on":"");b.style.height=(25+i*10)+"%";bars.appendChild(b)}
+  $("months").innerHTML=["Mai","Jun","Jul","Ago","Set","Atual"].map(x=>`<span>${x}</span>`).join("");
+  renderModule();
+}
+function renderModule(){
+  if(currentPage==="dashboard") return;
+  const typeMap={receber:"receber",pagar:"pagar",dinheiro:null,movimentos:null,relatorios:null};
+  let arr=launches.filter(inPeriod);
+  if(typeMap[currentPage]) arr=arr.filter(x=>x.type===typeMap[currentPage]);
+  const title=currentPage==="receber"?"Receber":currentPage==="pagar"?"Pagar":currentPage==="dinheiro"?"Dinheiro":currentPage==="movimentos"?"Movimentações":"Relatórios";
+  $("otherTitle").textContent=title;
+  $("otherText").textContent= currentPage==="dinheiro"?"Entradas e saídas reais do caixa.":currentPage==="relatorios"?"Resumo dos lançamentos do período.":`Lançamentos de ${title.toLowerCase()} no período selecionado.`;
+  $("newLaunch").style.display=currentPage==="relatorios"?"none":"inline-block";
+  if(!arr.length){$("moduleContent").innerHTML='<div class="empty">Nenhum lançamento no período. Clique em <b>+ Novo lançamento</b> para começar.</div>';return}
+  $("moduleContent").innerHTML=arr.sort((a,b)=>b.date.localeCompare(a.date)).map((x,i)=>`
+    <div class="row" style="gap:15px;align-items:center">
+      <div style="flex:1"><strong>${x.desc}</strong><div class="sub">${x.company} · ${x.category||"Sem categoria"} · ${new Date(x.date+"T12:00").toLocaleDateString("pt-BR")}</div></div>
+      <span>${x.status}</span><strong class="${x.type==="pagar"||x.type==="saida"?"negative":"positive"}">${x.type==="pagar"||x.type==="saida"?"−":"+"} ${money(x.value)}</strong>
+      <button class="btn gray" onclick="removeLaunch(${i},'${x.date}')">Excluir</button>
+    </div>`).join("");
+}
+window.removeLaunch=(i,date)=>{
+  const arr=launches.filter(inPeriod).sort((a,b)=>b.date.localeCompare(a.date));
+  const target=arr[i]; launches=launches.filter(x=>x!==target); save(); render();
+};
+function openModal(defaultType){
+  $("modal").style.display="flex"; $("modal").classList.remove("hidden");
+  $("fType").value=defaultType||"receber"; $("fDate").value=$("start").value||iso(today);
+}
+function closeModal(){$("modal").style.display="none";$("modal").classList.add("hidden");$("launchForm").reset();$("fDate").value=iso(today)}
+$("newLaunch").onclick=()=>openModal(currentPage==="receber"?"receber":currentPage==="pagar"?"pagar":currentPage==="dinheiro"?"entrada":"entrada");
+$("closeModal").onclick=closeModal;
+$("launchForm").onsubmit=e=>{
+ e.preventDefault();
+ launches.push({id:Date.now(),company:$("fCompany").value,type:$("fType").value,desc:$("fDesc").value.trim(),category:$("fCat").value.trim(),value:Number($("fValue").value),date:$("fDate").value,status:$("fStatus").value,obs:$("fObs").value.trim()});
+ save();closeModal();render();
+};
+$("apply").onclick=render;
+document.querySelectorAll(".nav button").forEach(btn=>btn.onclick=()=>{
+ document.querySelectorAll(".nav button").forEach(x=>x.classList.remove("active"));btn.classList.add("active");
+ currentPage=btn.dataset.page;
+ $("dashboard").classList.toggle("hidden",currentPage!=="dashboard");
+ $("other").classList.toggle("hidden",currentPage==="dashboard");
+ $("pageTitle").textContent=currentPage==="dashboard"?"Visão geral":btn.textContent.replace(/^[^A-Za-zÀ-ÿ]+/,"").trim();
+ render();
 });
-</script>
-</body>
-</html>
+render();
