@@ -3,7 +3,6 @@
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Meu Caixa</title>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 :root{--bg:#f5f7fb;--card:#fff;--text:#172033;--muted:#718096;--line:#e7ecf4;--blue:#3157d5;--green:#169c68;--red:#d94a5b;--amber:#c88719}
 *{box-sizing:border-box}body{margin:0;font:14px Inter,system-ui,Arial;background:var(--bg);color:var(--text)}button,input{font:inherit}.hidden{display:none!important}
@@ -13,7 +12,8 @@
 .drawer{position:fixed;z-index:30;top:0;bottom:0;left:0;width:270px;background:#fff;border-right:1px solid var(--line);padding:22px;transform:translateX(-100%);transition:.2s}.drawer.open{transform:translateX(0)}.drawer .brand{margin-bottom:28px}.group{font-size:10px;color:#98a2b2;font-weight:850;text-transform:uppercase;margin:18px 10px 7px}.nav{display:grid;gap:5px}.nav button{border:0;background:none;text-align:left;padding:11px;border-radius:10px;color:#465168;font-weight:650;cursor:pointer}.nav button.active,.nav button:hover{background:#eef2ff;color:var(--blue)}.logout{margin-top:25px;width:100%;background:#fff1f3;color:var(--red)}
 main{max-width:1450px;margin:auto;padding:28px}.hero{margin-bottom:20px}.hero h1{margin:0;font-size:28px}.hero p{margin:6px 0;color:var(--muted)}.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:15px}.card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:20px;box-shadow:0 5px 20px #1d2d5506}.kicker{font-size:11px;color:var(--muted);font-weight:800}.value{font-size:27px;font-weight:900;margin-top:8px}.muted{color:var(--muted)}.green{color:var(--green)}.red{color:var(--red)}.grid2{display:grid;grid-template-columns:1.25fr .75fr;gap:15px;margin-top:15px}.company{display:grid;grid-template-columns:120px 1fr 110px;align-items:center;gap:12px;margin:16px 0}.bar{height:9px;background:#edf1f6;border-radius:99px;overflow:hidden}.bar i{display:block;height:100%;background:linear-gradient(90deg,#3157d5,#7190ff);border-radius:99px}.right{text-align:right;font-weight:800}.radar{display:grid;gap:9px}.radar>div{display:flex;justify-content:space-between;gap:10px;background:#f8fafc;padding:11px;border-radius:11px}.badge{padding:5px 8px;border-radius:99px;font-size:10px;font-weight:850}.ok{background:#e8f8f0;color:var(--green)}.warn{background:#fff5dc;color:var(--amber)}.bad{background:#fff0f2;color:var(--red)}table{width:100%;border-collapse:collapse}th,td{text-align:left;padding:11px 8px;border-bottom:1px solid var(--line);font-size:12px}th{font-size:10px;color:var(--muted);text-transform:uppercase}.toast{position:fixed;right:20px;bottom:20px;background:#172033;color:#fff;padding:13px 16px;border-radius:12px;z-index:50}
 @media(max-width:950px){.cards{grid-template-columns:1fr 1fr}.grid2{grid-template-columns:1fr}.period{display:none}}@media(max-width:600px){main{padding:17px}.cards{grid-template-columns:1fr}.company{grid-template-columns:90px 1fr 90px}.top{padding:0 13px}}
-</style></head>
+</style><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
 <body>
 <div id="login" class="login"><div class="login-card">
 <div class="brand"><div class="mark">₿</div><div>Meu Caixa</div></div><p class="sub">Controle financeiro consolidado para suas empresas.</p>
@@ -31,6 +31,46 @@ document.getElementById("start").value=iso(start);document.getElementById("end")
 function $(id){return document.getElementById(id)}
 function setAuthMode(next){mode=next;$("authBtn").textContent=mode==="login"?"Entrar":"Criar conta";$("switchBtn").textContent=mode==="login"?"Criar conta":"Voltar para entrar";$("switchText").textContent=mode==="login"?"Ainda não tenho acesso.":"Já tenho uma conta.";$("err").textContent=""} function toast(s){$("toast").textContent=s;$("toast").classList.remove("hidden");setTimeout(()=>$("toast").classList.add("hidden"),2500)}
 $("menu").onclick=()=>$("drawer").classList.toggle("open");$("refresh").onclick=load;$("start").onchange=load;$("end").onchange=load;$("logout").onclick=async()=>{await db.auth.signOut();location.reload()};
+
+authBtn.onclick = async () => {
+  const email = $("email").value.trim();
+  const password = $("password").value;
+  $("err").textContent = "";
+  if (!email || !password) {
+    $("err").textContent = "Informe e-mail e senha.";
+    return;
+  }
+
+  authBtn.disabled = true;
+  authBtn.textContent = "Entrando...";
+
+  try {
+    const client = window.supabase.createClient(
+      "https://vsqopkbxvpiouwnwmwst.supabase.co",
+      "sb_publishable_8TpUUtjAoc9JfM4Bi5hNEw_62StWFX9"
+    );
+
+    const { data, error } = await client.auth.signInWithPassword({
+      email,
+      password
+    });
+
+    if (error) throw error;
+    if (!data.session) throw new Error("Sessão não criada.");
+
+    // Keep the existing app's own navigation/session flow.
+    $("auth").classList.add("hidden");
+    $("app").classList.remove("hidden");
+    $("userEmail").textContent = email;
+    if (typeof render === "function") render();
+  } catch (e) {
+    $("err").textContent = e.message || "E-mail ou senha inválidos.";
+  } finally {
+    authBtn.disabled = false;
+    authBtn.textContent = "Entrar";
+  }
+};
+
 $("switchBtn").onclick=()=>setAuthMode(mode==="login"?"signup":"login");
 $("auth").onsubmit=async e=>{e.preventDefault();$("err").textContent="";let r=mode==="login"?await db.auth.signInWithPassword({email:$("email").value,password:$("password").value}):await db.auth.signUp({email:$("email").value,password:$("password").value});if(r.error){$("err").textContent=r.error.message;return}if(mode==="signup"&&!r.data.session)toast("Conta criada. Confirme seu e-mail para entrar.");else if(r.data.session)enter(r.data.session)};
 async function enter(s){$("login").classList.add("hidden");$("app").classList.remove("hidden");await load()}
@@ -43,77 +83,4 @@ function render(){if(view!=="dashboard"){ $("title").textContent={cash:"Dinheiro
 document.querySelectorAll(".nav button").forEach(b=>b.onclick=()=>{view=b.dataset.view;document.querySelectorAll(".nav button").forEach(x=>x.classList.remove("active"));b.classList.add("active");$("drawer").classList.remove("open");render()});
 db.auth.getSession().then(({data:{session}})=>{if(session)enter(session)});
 </script>
-<script>
-(function(){
-  const SUPABASE_URL = "https://vsqopkbxvpiouwnwmwst.supabase.co";
-  const SUPABASE_KEY = "sb_publishable_8TpUUtjAoc9JfM4Bi5hNEw_62StWFX9";
-  const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-
-  const email = document.getElementById("email");
-  const password = document.getElementById("password");
-  const authBtn = document.getElementById("authBtn");
-  const err = document.getElementById("err");
-  const form = document.getElementById("authForm");
-
-  if (!form || !email || !password || !authBtn) return;
-
-  let mode = "login";
-
-  function setMode(m){
-    mode = m;
-    authBtn.textContent = mode === "login" ? "Entrar" : "Criar conta";
-    if (document.getElementById("switchBtn"))
-      document.getElementById("switchBtn").textContent = mode === "login" ? "Criar conta" : "Voltar para entrar";
-    if (document.getElementById("switchText"))
-      document.getElementById("switchText").textContent = mode === "login" ? "Ainda não tenho acesso." : "Já tenho uma conta.";
-    err.textContent = "";
-  }
-
-  const oldSwitch = document.getElementById("switchBtn");
-  if (oldSwitch) {
-    oldSwitch.onclick = function(e){ e.preventDefault(); setMode(mode === "login" ? "signup" : "login"); };
-  }
-
-  form.addEventListener("submit", async function(e){
-    e.preventDefault();
-    err.textContent = "";
-    authBtn.disabled = true;
-    authBtn.textContent = "Aguarde...";
-
-    try {
-      let result;
-      if (mode === "login") {
-        result = await sb.auth.signInWithPassword({
-          email: email.value.trim(),
-          password: password.value
-        });
-      } else {
-        result = await sb.auth.signUp({
-          email: email.value.trim(),
-          password: password.value,
-          options: { data: { username: "WILLIANMASTER", role: "MASTER" } }
-        });
-      }
-
-      if (result.error) throw result.error;
-
-      if (mode === "signup" && !result.data.session) {
-        err.textContent = "Conta criada. Confirme o e-mail para entrar.";
-        return;
-      }
-
-      if (result.data.session) {
-        localStorage.setItem("meu_caixa_auth", "1");
-        location.reload();
-      }
-    } catch (e) {
-      err.textContent = e.message || "Não foi possível entrar.";
-    } finally {
-      authBtn.disabled = false;
-      authBtn.textContent = mode === "login" ? "Entrar" : "Criar conta";
-    }
-  });
-})();
-</script>
-
 </body></html>
