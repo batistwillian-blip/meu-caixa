@@ -42,4 +42,78 @@ function render(){if(view!=="dashboard"){ $("title").textContent={cash:"Dinheiro
 <div class="grid2"><div class="card"><h3>Movimentações recentes</h3><table><thead><tr><th>Data</th><th>Descrição</th><th>Valor</th></tr></thead><tbody>${data.tx.slice(-8).reverse().map(t=>`<tr><td>${new Date(t.transaction_date+"T12:00").toLocaleDateString("pt-BR")}</td><td>${esc(t.description)}</td><td class="${t.type==="entrada"?"green":"red"}">${t.type==="entrada"?"+":"−"} ${money(t.amount)}</td></tr>`).join("")||"<tr><td colspan=3>Nenhuma movimentação.</td></tr>"}</tbody></table></div><div class="card"><h3>Próximos recebimentos</h3><table><thead><tr><th>Venc.</th><th>Descrição</th><th>Valor</th></tr></thead><tbody>${data.rec.filter(x=>x.status==="pending").slice(0,6).map(x=>`<tr><td>${new Date(x.due_date+"T12:00").toLocaleDateString("pt-BR")}</td><td>${esc(x.description)}</td><td class="green">${money(x.amount)}</td></tr>`).join("")||"<tr><td colspan=3>Nenhum recebimento previsto.</td></tr>"}</tbody></table></div></div>`}
 document.querySelectorAll(".nav button").forEach(b=>b.onclick=()=>{view=b.dataset.view;document.querySelectorAll(".nav button").forEach(x=>x.classList.remove("active"));b.classList.add("active");$("drawer").classList.remove("open");render()});
 db.auth.getSession().then(({data:{session}})=>{if(session)enter(session)});
-</script></body></html>
+</script>
+<script>
+(function(){
+  const SUPABASE_URL = "https://vsqopkbxvpiouwnwmwst.supabase.co";
+  const SUPABASE_KEY = "sb_publishable_8TpUUtjAoc9JfM4Bi5hNEw_62StWFX9";
+  const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+  const email = document.getElementById("email");
+  const password = document.getElementById("password");
+  const authBtn = document.getElementById("authBtn");
+  const err = document.getElementById("err");
+  const form = document.getElementById("authForm");
+
+  if (!form || !email || !password || !authBtn) return;
+
+  let mode = "login";
+
+  function setMode(m){
+    mode = m;
+    authBtn.textContent = mode === "login" ? "Entrar" : "Criar conta";
+    if (document.getElementById("switchBtn"))
+      document.getElementById("switchBtn").textContent = mode === "login" ? "Criar conta" : "Voltar para entrar";
+    if (document.getElementById("switchText"))
+      document.getElementById("switchText").textContent = mode === "login" ? "Ainda não tenho acesso." : "Já tenho uma conta.";
+    err.textContent = "";
+  }
+
+  const oldSwitch = document.getElementById("switchBtn");
+  if (oldSwitch) {
+    oldSwitch.onclick = function(e){ e.preventDefault(); setMode(mode === "login" ? "signup" : "login"); };
+  }
+
+  form.addEventListener("submit", async function(e){
+    e.preventDefault();
+    err.textContent = "";
+    authBtn.disabled = true;
+    authBtn.textContent = "Aguarde...";
+
+    try {
+      let result;
+      if (mode === "login") {
+        result = await sb.auth.signInWithPassword({
+          email: email.value.trim(),
+          password: password.value
+        });
+      } else {
+        result = await sb.auth.signUp({
+          email: email.value.trim(),
+          password: password.value,
+          options: { data: { username: "WILLIANMASTER", role: "MASTER" } }
+        });
+      }
+
+      if (result.error) throw result.error;
+
+      if (mode === "signup" && !result.data.session) {
+        err.textContent = "Conta criada. Confirme o e-mail para entrar.";
+        return;
+      }
+
+      if (result.data.session) {
+        localStorage.setItem("meu_caixa_auth", "1");
+        location.reload();
+      }
+    } catch (e) {
+      err.textContent = e.message || "Não foi possível entrar.";
+    } finally {
+      authBtn.disabled = false;
+      authBtn.textContent = mode === "login" ? "Entrar" : "Criar conta";
+    }
+  });
+})();
+</script>
+
+</body></html>
