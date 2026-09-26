@@ -2,176 +2,215 @@
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Meu Caixa</title>
 <style>
-*{box-sizing:border-box}body{margin:0;font-family:Inter,Arial,sans-serif;background:#f5f7fb;color:#172033}
-button,input,select{font:inherit}button{cursor:pointer}
-.layout{display:flex;min-height:100vh}.side{width:245px;background:#111827;color:#fff;padding:22px 16px;position:fixed;inset:0 auto 0 0}.brand{font-size:24px;font-weight:800;padding:8px 12px 28px}.brand span{color:#60a5fa}.nav button{width:100%;background:transparent;border:0;color:#cbd5e1;text-align:left;padding:13px 14px;border-radius:10px;margin:3px 0}.nav button.active,.nav button:hover{background:#1f2937;color:#fff}.main{margin-left:245px;width:calc(100% - 245px);padding:28px 32px}.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:26px}.title h1{margin:0;font-size:29px}.title p{margin:5px 0;color:#64748b}.period{display:flex;gap:8px;align-items:center}.period input{border:1px solid #dbe1ea;border-radius:9px;padding:9px;background:white}.btn{border:0;border-radius:9px;padding:10px 15px;background:#2563eb;color:white;font-weight:700}.btn.gray{background:#e9eef5;color:#243047}.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}.card{background:white;border:1px solid #e7ebf2;border-radius:14px;padding:20px;box-shadow:0 2px 8px #10182808}.label{color:#64748b;font-size:13px;font-weight:600}.value{font-size:27px;font-weight:800;margin-top:8px}.sub{font-size:12px;color:#94a3b8;margin-top:5px}.grid{display:grid;grid-template-columns:1.5fr 1fr;gap:18px;margin-top:18px}.section{background:white;border:1px solid #e7ebf2;border-radius:14px;padding:20px}.section h2{font-size:17px;margin:0 0 16px}.company{display:flex;justify-content:space-between;align-items:center;padding:15px 0;border-top:1px solid #eef1f5}.company:first-of-type{border-top:0}.dot{width:10px;height:10px;border-radius:50%;display:inline-block;margin-right:8px;background:#2563eb}.dot.aura{background:#16a34a}.dot.personal{background:#9333ea}.amount{font-weight:800}.bars{display:flex;align-items:end;height:170px;gap:9px;padding-top:15px}.bar{flex:1;background:#dbeafe;border-radius:5px 5px 2px 2px;min-height:10px}.bar.on{background:#2563eb}.months{display:flex;gap:9px;font-size:11px;color:#94a3b8}.row{display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid #eef1f5}.positive{color:#15803d}.negative{color:#dc2626}.empty{color:#94a3b8;text-align:center;padding:35px}.hidden{display:none}
-@media(max-width:900px){.side{width:210px}.main{margin-left:210px;width:calc(100% - 210px);padding:20px}.cards{grid-template-columns:repeat(2,1fr)}.grid{grid-template-columns:1fr}}
-@media(max-width:650px){.side{display:none}.main{margin:0;width:100%}.cards{grid-template-columns:1fr}.top{display:block}.period{margin-top:15px;flex-wrap:wrap}}
+*{box-sizing:border-box}:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font-family:Arial,sans-serif;background:#f5f7fb;color:#172033}button,input,select{font:inherit}button{cursor:pointer}
+.layout{display:flex;min-height:100vh}.side{width:245px;background:#111827;color:#fff;padding:22px 16px;position:fixed;inset:0 auto 0 0}.brand{font-size:24px;font-weight:800;padding:8px 12px 28px}.brand span{color:#60a5fa}.nav button{width:100%;background:transparent;border:0;color:#cbd5e1;text-align:left;padding:13px 14px;border-radius:10px;margin:3px 0}.nav button.active,.nav button:hover{background:#1f2937;color:#fff}
+.main{margin-left:245px;width:calc(100% - 245px);padding:28px 32px}.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:26px}.title h1{margin:0;font-size:29px}.title p{margin:5px 0;color:#64748b}.period{display:flex;gap:8px;align-items:center}.period input{border:1px solid #dbe1ea;border-radius:9px;padding:9px;background:#fff}.btn{border:0;border-radius:9px;padding:10px 15px;background:#2563eb;color:#fff;font-weight:700}.btn.gray{background:#e9eef5;color:#243047}
+.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}.card,.section{background:#fff;border:1px solid #e7ebf2;border-radius:14px;padding:20px;box-shadow:0 2px 8px #10182808}.label{color:#64748b;font-size:13px;font-weight:600}.value{font-size:27px;font-weight:800;margin-top:8px}.sub{font-size:12px;color:#94a3b8;margin-top:5px}.grid{display:grid;grid-template-columns:1.5fr 1fr;gap:18px;margin-top:18px}.section h2{font-size:17px;margin:0 0 16px}.company,.row{display:flex;justify-content:space-between;align-items:center;padding:13px 0;border-bottom:1px solid #eef1f5}.dot{width:10px;height:10px;border-radius:50%;display:inline-block;margin-right:8px;background:#2563eb}.dot.aura{background:#16a34a}.dot.personal{background:#9333ea}.amount{font-weight:800}.positive{color:#15803d}.negative{color:#dc2626}.bars{display:flex;align-items:end;height:170px;gap:9px;padding-top:15px}.bar{flex:1;background:#dbeafe;border-radius:5px 5px 2px 2px;min-height:10px}.bar.on{background:#2563eb}.months{display:flex;justify-content:space-between;font-size:11px;color:#94a3b8}.empty{color:#94a3b8;text-align:center;padding:35px}.hidden{display:none!important}.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.formgrid label{display:grid;gap:6px;color:#475569;font-size:13px;font-weight:700}.formgrid input,.formgrid select{padding:10px;border:1px solid #dbe1ea;border-radius:8px;background:#fff}.full{grid-column:1/-1}
+.modal{position:fixed;inset:0;background:#0f172a88;display:flex;align-items:center;justify-content:center;padding:20px;z-index:20}.modalbox{background:#fff;border-radius:16px;width:min(620px,100%);padding:24px}.modalhead{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}.modalhead h2{margin:0}
+@media(max-width:900px){.side{width:210px}.main{margin-left:210px;width:calc(100% - 210px);padding:20px}.cards{grid-template-columns:repeat(2,1fr)}.grid{grid-template-columns:1fr}}@media(max-width:650px){.side{display:none}.main{margin:0;width:100%}.cards{grid-template-columns:1fr}.top{display:block}.period{margin-top:15px;flex-wrap:wrap}.formgrid{grid-template-columns:1fr}.full{grid-column:auto}}
 </style>
 </head>
 <body>
 <div class="layout">
-<aside class="side">
-  <div class="brand">Meu <span>Caixa</span></div>
-  <div class="nav">
-    <button class="active" data-page="dashboard">▦ &nbsp; Dashboard</button>
-    <button data-page="dinheiro">▣ &nbsp; Dinheiro</button>
-    <button data-page="receber">↙ &nbsp; Receber</button>
-    <button data-page="pagar">↗ &nbsp; Pagar</button>
-    <button data-page="movimentos">↔ &nbsp; Movimentações</button>
-    <button data-page="relatorios">▥ &nbsp; Relatórios</button>
-  </div>
-</aside>
+<aside class="side"><div class="brand">Meu <span>Caixa</span></div><div class="nav">
+<button class="active" data-page="dashboard">▦ &nbsp; Dashboard</button>
+<button data-page="dinheiro">▣ &nbsp; Dinheiro</button>
+<button data-page="receber">↙ &nbsp; Receber</button>
+<button data-page="pagar">↗ &nbsp; Pagar</button>
+<button data-page="movimentos">↔ &nbsp; Movimentações</button>
+<button data-page="relatorios">▥ &nbsp; Relatórios</button>
+</div></aside>
 <main class="main">
-  <div class="top">
-    <div class="title"><h1 id="pageTitle">Visão geral</h1><p id="periodText">Período selecionado</p></div>
-    <div class="period">
-      <input id="start" type="date"><span>até</span><input id="end" type="date">
-      <button class="btn" id="apply">Atualizar</button>
-    </div>
-  </div>
+<div class="top"><div class="title"><h1 id="pageTitle">Visão geral</h1><p id="periodText"></p></div><div class="period"><input id="start" type="date"><span>até</span><input id="end" type="date"><button class="btn" id="apply">Atualizar</button></div></div>
 
-  <section id="dashboard">
-    <div class="cards">
-      <div class="card"><div class="label">CAIXA DISPONÍVEL AGORA</div><div class="value" id="cash">R$ 0,00</div><div class="sub">Dinheiro que existe hoje</div></div>
-      <div class="card"><div class="label">A RECEBER</div><div class="value positive" id="receivable">R$ 0,00</div><div class="sub">Valores ainda não recebidos</div></div>
-      <div class="card"><div class="label">A PAGAR</div><div class="value negative" id="payable">R$ 0,00</div><div class="sub">Compromissos pendentes</div></div>
-      <div class="card"><div class="label">CAIXA PROJETADO</div><div class="value" id="projected">R$ 0,00</div><div class="sub">Caixa + receber − pagar</div></div>
-    </div>
-    <div class="grid">
-      <div class="section"><h2>Caixa por empresa</h2>
-        <div class="company"><span><i class="dot"></i>PrimeTech</span><span class="amount" id="prime">R$ 0,00</span></div>
-        <div class="company"><span><i class="dot aura"></i>Aura</span><span class="amount" id="aura">R$ 0,00</span></div>
-        <div class="company"><span><i class="dot personal"></i>Pessoal</span><span class="amount" id="personal">R$ 0,00</span></div>
-        <div class="company"><strong>Consolidado</strong><strong id="total">R$ 0,00</strong></div>
-      </div>
-      <div class="section"><h2>Fluxo do período</h2><div class="bars" id="bars"></div><div class="months" id="months"></div></div>
-    </div>
-    <div class="grid">
-      <div class="section"><h2>Próximos compromissos</h2><div id="commitments"><div class="empty">Nenhum lançamento carregado ainda.</div></div></div>
-      <div class="section"><h2>Resumo rápido</h2><div class="row"><span>Entradas realizadas</span><strong class="positive" id="in">R$ 0,00</strong></div><div class="row"><span>Saídas realizadas</span><strong class="negative" id="out">R$ 0,00</strong></div><div class="row"><span>Resultado do período</span><strong id="result">R$ 0,00</strong></div></div>
-    </div>
-  </section>
-
-  <section id="other" class="hidden">
-  <div class="section">
-    <div style="display:flex;justify-content:space-between;align-items:center;gap:15px;flex-wrap:wrap">
-      <div><h2 id="otherTitle">Módulo</h2><p id="otherText"></p></div>
-      <button class="btn" id="newLaunch">+ Novo lançamento</button>
-    </div>
-    <div id="moduleContent"></div>
-  </div>
+<section id="dashboard">
+<div class="cards">
+<div class="card"><div class="label">CAIXA DISPONÍVEL AGORA</div><div class="value" id="cash">R$ 0,00</div><div class="sub">Saldo acumulado de movimentos realizados</div></div>
+<div class="card"><div class="label">A RECEBER</div><div class="value positive" id="receivable">R$ 0,00</div><div class="sub">Pendências de recebimento</div></div>
+<div class="card"><div class="label">A PAGAR</div><div class="value negative" id="payable">R$ 0,00</div><div class="sub">Compromissos pendentes</div></div>
+<div class="card"><div class="label">CAIXA PROJETADO</div><div class="value" id="projected">R$ 0,00</div><div class="sub">Caixa + receber − pagar</div></div>
+</div>
+<div class="grid">
+<div class="section"><h2>Caixa por empresa</h2>
+<div class="company"><span><i class="dot"></i>PrimeTech</span><span class="amount" id="prime">R$ 0,00</span></div>
+<div class="company"><span><i class="dot aura"></i>Aura</span><span class="amount" id="aura">R$ 0,00</span></div>
+<div class="company"><span><i class="dot personal"></i>Pessoal</span><span class="amount" id="personal">R$ 0,00</span></div>
+<div class="company"><strong>Consolidado</strong><strong id="total">R$ 0,00</strong></div>
+</div>
+<div class="section"><h2>Fluxo do período</h2><div class="bars" id="bars"></div><div class="months" id="months"></div></div>
+</div>
+<div class="grid"><div class="section"><h2>Últimos lançamentos</h2><div id="recent" class="empty">Nenhum lançamento.</div></div><div class="section"><h2>Resumo</h2><div class="row"><span>Entradas realizadas</span><strong class="positive" id="inc">R$ 0,00</strong></div><div class="row"><span>Saídas realizadas</span><strong class="negative" id="out">R$ 0,00</strong></div><div class="row"><span>Resultado</span><strong id="result">R$ 0,00</strong></div></div></div>
 </section>
 
-<div id="modal" class="hidden" style="position:fixed;inset:0;background:#0f172a88;display:none;align-items:center;justify-content:center;padding:20px;z-index:20">
- <div style="background:white;border-radius:16px;width:min(560px,100%);padding:24px;box-shadow:0 20px 60px #0003">
-  <div style="display:flex;justify-content:space-between;align-items:center"><h2 id="modalTitle">Novo lançamento</h2><button class="btn gray" id="closeModal">Fechar</button></div>
-  <form id="launchForm" style="display:grid;gap:13px;margin-top:15px">
-   <label>Empresa<select id="fCompany"><option>PrimeTech</option><option>Aura</option><option>Pessoal</option></select></label>
-   <label>Tipo<select id="fType"><option value="receber">Receber</option><option value="pagar">Pagar</option><option value="entrada">Entrada de caixa</option><option value="saida">Saída de caixa</option></select></label>
-   <label>Descrição<input id="fDesc" required placeholder="Ex.: Venda de mercadorias"></label>
-   <label>Categoria<input id="fCat" placeholder="Ex.: Sistema, Consultoria, Compras"></label>
-   <label>Valor<input id="fValue" required type="number" step="0.01" min="0.01" placeholder="0,00"></label>
-   <label>Data<input id="fDate" required type="date"></label>
-   <label>Status<select id="fStatus"><option value="pendente">Pendente</option><option value="recebido">Recebido</option><option value="pago">Pago</option></select></label>
-   <label>Observação<input id="fObs" placeholder="Detalhes adicionais"></label>
-   <button class="btn" type="submit">Salvar lançamento</button>
-  </form>
- </div>
-</div>
-</main>
-</div>
+<section id="module" class="hidden"><div class="section"><div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap"><div><h2 id="moduleTitle"></h2><p id="moduleDesc" class="sub"></p></div><button class="btn" id="newBtn">+ Novo lançamento</button></div><div id="list"></div></div></section>
+</main></div>
+
+<div id="modal" class="modal hidden"><div class="modalbox"><div class="modalhead"><h2>Novo lançamento</h2><button class="btn gray" id="closeBtn">Fechar</button></div>
+<form id="form"><div class="formgrid">
+<label>Empresa<select id="company"><option>PrimeTech</option><option>Aura</option><option>Pessoal</option></select></label>
+<label>Tipo<select id="type">
+<option value="saldo_inicial">Saldo inicial</option>
+<option value="receber">A receber</option>
+<option value="pagar">A pagar</option>
+<option value="entrada">Entrada de caixa</option>
+<option value="saida">Saída de caixa</option>
+</select></label>
+<label class="full">Descrição<input id="desc" required placeholder="Ex.: Mensalidade de consultoria"></label>
+<label>Categoria<input id="category" placeholder="Sistema / Consultoria / Grupo SER"></label>
+<label>Valor<input id="value" required type="number" step="0.01" min="0.01" placeholder="0,00"></label>
+<label>Data<input id="date" required type="date"></label>
+<label>Status<select id="status"><option value="pendente">Pendente</option><option value="recebido">Recebido</option><option value="pago">Pago</option></select></label>
+<label class="full">Observação<input id="obs" placeholder="Detalhes"></label>
+</div><button class="btn" style="margin-top:18px;width:100%" type="submit">Salvar lançamento</button></form></div></div>
+
 <script>
-const money=v=>new Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL'}).format(v||0);
-const iso=d=>new Date(d.getTime()-d.getTimezoneOffset()*60000).toISOString().slice(0,10);
-const now=new Date(), start=new Date(now.getFullYear(),now.getMonth(),1), end=new Date(now.getFullYear(),now.getMonth()+1,0);
-document.querySelector('#start').value=iso(start);document.querySelector('#end').value=iso(end);
-document.querySelector('#periodText').textContent=`${start.toLocaleDateString('pt-BR')} até ${end.toLocaleDateString('pt-BR')}`;
-
-const money=v=>new Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL'}).format(Number(v)||0);
-const iso=d=>new Date(d.getTime()-d.getTimezoneOffset()*60000).toISOString().slice(0,10);
-const today=new Date(), first=new Date(today.getFullYear(),today.getMonth(),1), last=new Date(today.getFullYear(),today.getMonth()+1,0);
+(function(){
+"use strict";
 const $=id=>document.getElementById(id);
-$("start").value=iso(first); $("end").value=iso(last);
-let launches=JSON.parse(localStorage.getItem("meuCaixaLancamentos")||"[]");
-let currentPage="dashboard";
+const money=v=>new Intl.NumberFormat("pt-BR",{style:"currency",currency:"BRL"}).format(Number(v)||0);
+const today=new Date();
+const pad=n=>String(n).padStart(2,"0");
+const dateISO=d=>d.getFullYear()+"-"+pad(d.getMonth()+1)+"-"+pad(d.getDate());
+const first=new Date(today.getFullYear(),today.getMonth(),1);
+const last=new Date(today.getFullYear(),today.getMonth()+1,0);
+$("start").value=dateISO(first); $("end").value=dateISO(last);
 
-function save(){localStorage.setItem("meuCaixaLancamentos",JSON.stringify(launches));}
-function inPeriod(x){
-  const a=$("start").value,b=$("end").value;
-  return (!a||x.date>=a)&&(!b||x.date<=b);
+let launches=[];
+try{launches=JSON.parse(localStorage.getItem("meuCaixaLancamentos")||"[]");if(!Array.isArray(launches))launches=[]}catch(e){launches=[]}
+let page="dashboard";
+
+function save(){localStorage.setItem("meuCaixaLancamentos",JSON.stringify(launches))}
+function normalizeLaunches(){
+ launches=launches.map(x=>({
+  id:x.id||Date.now()+Math.random(),
+  company:["PrimeTech","Aura","Pessoal"].includes(x.company)?x.company:"Aura",
+  type:["saldo_inicial","receber","pagar","entrada","saida"].includes(x.type)?x.type:"receber",
+  desc:x.desc||x.description||"Lançamento",
+  category:x.category||"",
+  value:Number(x.value)||0,
+  date:x.date||dateISO(today),
+  status:x.status||"pendente",
+  obs:x.obs||""
+ }));
 }
-function statusCounts(){
-  let cash={PrimeTech:0,Aura:0,Pessoal:0}, rec=0,pay=0,inc=0,out=0;
-  launches.forEach(x=>{
-    const v=Number(x.value)||0;
-    const isReal=(x.type==="entrada"&&x.status==="recebido")||(x.type==="saida"&&x.status==="pago")||
-                 (x.type==="receber"&&x.status==="recebido")||(x.type==="pagar"&&x.status==="pago");
-    if(isReal){
-      if(x.type==="entrada"||x.type==="receber"){cash[x.company]+=v;inc+=v}
-      if(x.type==="saida"||x.type==="pagar"){cash[x.company]-=v;out+=v}
-    }
-    if(x.type==="receber"&&x.status!=="recebido") rec+=v;
-    if(x.type==="pagar"&&x.status!=="pago") pay+=v;
-  });
-  return {cash,rec,pay,inc,out};
+normalizeLaunches();
+save();
+
+function inPeriod(x){return (!$("start").value||x.date>=$("start").value)&&(!$("end").value||x.date<=$("end").value)}
+function isIncoming(x){return x.type==="receber"||x.type==="entrada"||x.type==="saldo_inicial"}
+function isOutgoing(x){return x.type==="pagar"||x.type==="saida"}
+function isSettled(x){
+ return x.type==="saldo_inicial" ||
+   (x.type==="receber"&&x.status==="recebido") ||
+   (x.type==="pagar"&&x.status==="pago") ||
+   (x.type==="entrada"&&x.status==="recebido") ||
+   (x.type==="saida"&&x.status==="pago");
+}
+function totals(){
+ let cash={PrimeTech:0,Aura:0,Pessoal:0}, rec=0,pay=0,inc=0,out=0;
+ // Current cash balance: all settled movements, including opening balances.
+ launches.forEach(x=>{
+  const v=Number(x.value)||0;
+  if(isSettled(x)){
+   if(isIncoming(x)) cash[x.company]=(cash[x.company]||0)+v;
+   else cash[x.company]=(cash[x.company]||0)-v;
+  }
+ });
+ // A receber / a pagar: pendências reais, independentes do período selecionado
+ // (senão uma conta vencida some do card assim que o filtro muda de mês).
+ launches.forEach(x=>{
+  const v=Number(x.value)||0;
+  if(x.type==="receber"&&x.status!=="recebido") rec+=v;
+  if(x.type==="pagar"&&x.status!=="pago") pay+=v;
+ });
+ // Fluxo realizado dentro do período selecionado.
+ launches.filter(inPeriod).forEach(x=>{
+  const v=Number(x.value)||0;
+  if(isSettled(x)){
+   if(isIncoming(x)) inc+=v;
+   else out+=v;
+  }
+ });
+ return {cash,rec,pay,inc,out};
+}
+function monthlyFlow(){
+ const map={};
+ launches.filter(inPeriod).filter(isSettled).forEach(x=>{
+  const key=x.date.slice(0,7);
+  const v=Number(x.value)||0;
+  if(!map[key])map[key]={inc:0,out:0};
+  if(isIncoming(x))map[key].inc+=v; else map[key].out+=v;
+ });
+ const keys=Object.keys(map).sort();
+ return keys.map(k=>({key:k,net:map[k].inc-map[k].out}));
 }
 function render(){
-  const d=statusCounts(), total=Object.values(d.cash).reduce((a,b)=>a+b,0);
-  $("cash").textContent=money(total); $("prime").textContent=money(d.cash.PrimeTech);
-  $("aura").textContent=money(d.cash.Aura); $("personal").textContent=money(d.cash.Pessoal);
-  $("total").textContent=money(total); $("receivable").textContent=money(d.rec);
-  $("payable").textContent=money(d.pay); $("projected").textContent=money(total+d.rec-d.pay);
-  $("in").textContent=money(d.inc); $("out").textContent=money(d.out); $("result").textContent=money(d.inc-d.out);
-  $("periodText").textContent=`${new Date($("start").value+"T12:00").toLocaleDateString('pt-BR')} até ${new Date($("end").value+"T12:00").toLocaleDateString('pt-BR')}`;
-  const bars=$("bars"); bars.innerHTML="";
-  for(let i=0;i<6;i++){let b=document.createElement("div");b.className="bar"+(i===5?" on":"");b.style.height=(25+i*10)+"%";bars.appendChild(b)}
-  $("months").innerHTML=["Mai","Jun","Jul","Ago","Set","Atual"].map(x=>`<span>${x}</span>`).join("");
-  renderModule();
+ const t=totals(), total=t.cash.PrimeTech+t.cash.Aura+t.cash.Pessoal;
+ $("cash").textContent=money(total);$("prime").textContent=money(t.cash.PrimeTech);$("aura").textContent=money(t.cash.Aura);$("personal").textContent=money(t.cash.Pessoal);$("total").textContent=money(total);
+ $("receivable").textContent=money(t.rec);$("payable").textContent=money(t.pay);$("projected").textContent=money(total+t.rec-t.pay);
+ $("inc").textContent=money(t.inc);$("out").textContent=money(t.out);$("result").textContent=money(t.inc-t.out);
+ $("periodText").textContent=new Date($("start").value+"T12:00").toLocaleDateString("pt-BR")+" até "+new Date($("end").value+"T12:00").toLocaleDateString("pt-BR");
+ const recent=launches.slice().sort((a,b)=>b.date.localeCompare(a.date)).slice(0,6);
+ $("recent").innerHTML=recent.length?recent.map(x=>'<div class="row"><span><strong>'+escapeHtml(x.desc)+'</strong><small style="display:block;color:#94a3b8">'+x.company+' · '+x.status+'</small></span><strong class="'+(isOutgoing(x)?"negative":"positive")+'">'+(isOutgoing(x)?"− ":"+ ")+money(x.value)+'</strong></div>').join(""):'<div class="empty">Nenhum lançamento.</div>';
+ renderChart();
+ renderModule();
 }
+function renderChart(){
+ const flow=monthlyFlow();
+ if(!flow.length){$("bars").innerHTML='<div class="empty" style="width:100%">Sem movimentos realizados no período.</div>';$("months").innerHTML="";return}
+ const max=Math.max(1,...flow.map(m=>Math.abs(m.net)));
+ $("bars").innerHTML=flow.map(m=>{
+  const h=Math.max(6,Math.round(Math.abs(m.net)/max*150));
+  const cls=m.net<0?"bar":"bar on";
+  return '<div class="'+cls+'" style="height:'+h+'px" title="'+money(m.net)+'"></div>';
+ }).join("");
+ $("months").innerHTML=flow.map(m=>{
+  const d=new Date(m.key+"-02T12:00");
+  return '<span>'+d.toLocaleDateString("pt-BR",{month:"short"}).replace(".","")+'</span>';
+ }).join("");
+}
+function escapeHtml(s){return String(s).replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]))}
 function renderModule(){
-  if(currentPage==="dashboard") return;
-  const typeMap={receber:"receber",pagar:"pagar",dinheiro:null,movimentos:null,relatorios:null};
-  let arr=launches.filter(inPeriod);
-  if(typeMap[currentPage]) arr=arr.filter(x=>x.type===typeMap[currentPage]);
-  const title=currentPage==="receber"?"Receber":currentPage==="pagar"?"Pagar":currentPage==="dinheiro"?"Dinheiro":currentPage==="movimentos"?"Movimentações":"Relatórios";
-  $("otherTitle").textContent=title;
-  $("otherText").textContent= currentPage==="dinheiro"?"Entradas e saídas reais do caixa.":currentPage==="relatorios"?"Resumo dos lançamentos do período.":`Lançamentos de ${title.toLowerCase()} no período selecionado.`;
-  $("newLaunch").style.display=currentPage==="relatorios"?"none":"inline-block";
-  if(!arr.length){$("moduleContent").innerHTML='<div class="empty">Nenhum lançamento no período. Clique em <b>+ Novo lançamento</b> para começar.</div>';return}
-  $("moduleContent").innerHTML=arr.sort((a,b)=>b.date.localeCompare(a.date)).map((x,i)=>`
-    <div class="row" style="gap:15px;align-items:center">
-      <div style="flex:1"><strong>${x.desc}</strong><div class="sub">${x.company} · ${x.category||"Sem categoria"} · ${new Date(x.date+"T12:00").toLocaleDateString("pt-BR")}</div></div>
-      <span>${x.status}</span><strong class="${x.type==="pagar"||x.type==="saida"?"negative":"positive"}">${x.type==="pagar"||x.type==="saida"?"−":"+"} ${money(x.value)}</strong>
-      <button class="btn gray" onclick="removeLaunch(${i},'${x.date}')">Excluir</button>
-    </div>`).join("");
+ if(page==="dashboard")return;
+ const names={dinheiro:["Dinheiro","Entradas e saídas que impactaram o caixa."],receber:["Receber","Valores que a empresa ainda tem para receber."],pagar:["Pagar","Compromissos que ainda precisam ser pagos."],movimentos:["Movimentações","Todos os lançamentos do período."],relatorios:["Relatórios","Resumo financeiro do período selecionado."]};
+ $("moduleTitle").textContent=names[page][0];$("moduleDesc").textContent=names[page][1];
+ $("newBtn").style.display=page==="relatorios"?"none":"inline-block";
+ let arr=launches.filter(inPeriod);
+ if(page==="receber")arr=arr.filter(x=>x.type==="receber");
+ if(page==="pagar")arr=arr.filter(x=>x.type==="pagar");
+ if(page==="dinheiro")arr=arr.filter(x=>x.type==="entrada"||x.type==="saida"||x.type==="saldo_inicial");
+ arr.sort((a,b)=>b.date.localeCompare(a.date));
+ $("list").innerHTML=arr.length?arr.map((x,i)=>'<div class="row"><span style="flex:1"><strong>'+escapeHtml(x.desc)+'</strong><small style="display:block;color:#94a3b8">'+x.company+' · '+escapeHtml(x.category)+' · '+new Date(x.date+"T12:00").toLocaleDateString("pt-BR")+' · '+x.status+'</small></span><strong class="'+(isOutgoing(x)?"negative":"positive")+'">'+(isOutgoing(x)?"− ":"+ ")+money(x.value)+'</strong><button class="btn gray" data-delete="'+x.id+'">Excluir</button></div>').join(""):'<div class="empty">Nenhum lançamento neste período.</div>';
+ document.querySelectorAll("[data-delete]").forEach(b=>b.onclick=()=>{launches=launches.filter(x=>String(x.id)!==String(b.dataset.delete));save();render()});
 }
-window.removeLaunch=(i,date)=>{
-  const arr=launches.filter(inPeriod).sort((a,b)=>b.date.localeCompare(a.date));
-  const target=arr[i]; launches=launches.filter(x=>x!==target); save(); render();
-};
-function openModal(defaultType){
-  $("modal").style.display="flex"; $("modal").classList.remove("hidden");
-  $("fType").value=defaultType||"receber"; $("fDate").value=$("start").value||iso(today);
+function openModal(){
+ $("modal").classList.remove("hidden");
+ $("date").value=dateISO(today);
+ $("status").value="pendente";
+ if(page==="receber"){$("type").value="receber";$("status").value="pendente";}
+ else if(page==="pagar"){$("type").value="pagar";$("status").value="pendente";}
+ else if(page==="dinheiro"){$("type").value="entrada";$("status").value="recebido";}
+ else $("type").value="saldo_inicial";
 }
-function closeModal(){$("modal").style.display="none";$("modal").classList.add("hidden");$("launchForm").reset();$("fDate").value=iso(today)}
-$("newLaunch").onclick=()=>openModal(currentPage==="receber"?"receber":currentPage==="pagar"?"pagar":currentPage==="dinheiro"?"entrada":"entrada");
-$("closeModal").onclick=closeModal;
-$("launchForm").onsubmit=e=>{
+function closeModal(){$("modal").classList.add("hidden");$("form").reset();$("date").value=dateISO(today)}
+$("newBtn").onclick=openModal;$("closeBtn").onclick=closeModal;
+$("form").onsubmit=e=>{
  e.preventDefault();
- launches.push({id:Date.now(),company:$("fCompany").value,type:$("fType").value,desc:$("fDesc").value.trim(),category:$("fCat").value.trim(),value:Number($("fValue").value),date:$("fDate").value,status:$("fStatus").value,obs:$("fObs").value.trim()});
- save();closeModal();render();
+ const selectedType=$("type").value;
+ const normalizedStatus=selectedType==="saldo_inicial"?"recebido":selectedType==="entrada"?"recebido":selectedType==="saida"?"pago":$("status").value;
+ const x={id:Date.now()+"-"+Math.random().toString(36).slice(2),company:$("company").value,type:selectedType,desc:$("desc").value.trim(),category:$("category").value.trim(),value:Number($("value").value),date:$("date").value,status:normalizedStatus,obs:$("obs").value.trim()};
+ launches.push(x);save();closeModal();render();
 };
 $("apply").onclick=render;
-document.querySelectorAll(".nav button").forEach(btn=>btn.onclick=()=>{
- document.querySelectorAll(".nav button").forEach(x=>x.classList.remove("active"));btn.classList.add("active");
- currentPage=btn.dataset.page;
- $("dashboard").classList.toggle("hidden",currentPage!=="dashboard");
- $("other").classList.toggle("hidden",currentPage==="dashboard");
- $("pageTitle").textContent=currentPage==="dashboard"?"Visão geral":btn.textContent.replace(/^[^A-Za-zÀ-ÿ]+/,"").trim();
- render();
+document.querySelectorAll(".nav button").forEach(b=>b.onclick=()=>{
+ document.querySelectorAll(".nav button").forEach(x=>x.classList.remove("active"));b.classList.add("active");
+ page=b.dataset.page;$("dashboard").classList.toggle("hidden",page!=="dashboard");$("module").classList.toggle("hidden",page==="dashboard");$("pageTitle").textContent=page==="dashboard"?"Visão geral":b.textContent.replace(/^[^A-Za-zÀ-ÿ]+/,"").trim();render();
 });
 render();
+})();
+</script>
+</body>
+</html>
